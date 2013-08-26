@@ -1,3 +1,32 @@
+<?php
+    require 'server/fb-php-sdk/facebook.php';
+
+    $app_id = '391175671004280';
+    $app_secret = 'eb021db2a307213b4443baa9067682fe';
+    $app_namespace = 'wigu_halloween';
+    $app_url = 'https://apps.facebook.com/' . $app_namespace . '/';
+    $scope = 'email,publish_actions';
+
+    // Init the Facebook SDK
+    $facebook = new Facebook(array(
+         'appId'  => $app_id,
+         'secret' => $app_secret,
+));
+
+// Get the current user
+$user = $facebook->getUser();
+
+// If the user has not installed the app, redirect them to the Login Dialog
+if (!$user) {
+        $loginUrl = $facebook->getLoginUrl(array(
+        'scope' => $scope,
+        'redirect_uri' => $app_url,
+        ));
+
+        print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
+}
+?>
+
 /**
 * Copyright 2013 Facebook, Inc.
 *
